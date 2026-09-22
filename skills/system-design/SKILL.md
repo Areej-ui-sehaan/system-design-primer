@@ -19,7 +19,7 @@ compatibility:
   - OpenAI Codex
   - Cursor
 metadata:
-  version: "2.0.0"
+  version: "3.0.0"
   source: https://github.com/donnemartin/system-design-primer
   aliases: system-design-interview, architecture-review, design-review, scalability, capacity-estimation, ood-interview
 ---
@@ -56,19 +56,19 @@ Load and follow this skill when the request matches the frontmatter `description
 
 | Mode | Trigger | Do this | Load |
 |---|---|---|---|
-| `interview` (default) | "design X" as a drill | Run the 4 steps conversationally; ask scoping questions before components | — (body below) |
+| `interview` (default) | "design X" as a drill | Run the 4 steps conversationally; ask scoping questions before components | calibrate with `references/examples.md` §1; score at end with `references/rubric.md` if feedback is wanted |
 | `design` | wants a written deliverable | Produce a full design doc | `templates/design-doc.md` |
-| `review` | existing architecture/doc to critique | SPOF, bottleneck, failure-mode, trade-off audit; checklist at end of body | `references/topic-playbook.md` |
-| `estimate` | pure capacity/numbers question | Order-of-magnitude math only; show setup, skip the full design | `references/quick-reference.md` |
-| `decide` | technology trade-off question | Recommend + counter-trade-off matrix, no full design | `references/topic-playbook.md` |
-| `ood` | object-oriented design drill | Classes/interfaces/relationships first, then methods | `references/questions.md` (OOD section) |
-| `study` | prep/study-plan questions | Timeline-based plan (short/medium/long) + question picks | `references/questions.md` |
+| `review` | existing architecture/doc to critique | SPOF, bottleneck, failure-mode, trade-off audit; closing checklist in `references/rubric.md` | `references/topic-playbook.md` + `references/rubric.md` (checklist) |
+| `estimate` | pure capacity/numbers question | Order-of-magnitude math only; show setup, skip the full design; run `scripts/estimate.py` for the arithmetic | `references/quick-reference.md` + `scripts/estimate.py` |
+| `decide` | technology trade-off question | Recommend + counter-trade-off matrix, no full design | `references/topic-playbook.md`; calibrate with `references/examples.md` §3 |
+| `ood` | object-oriented design drill | Classes/interfaces/relationships first, then methods; score with the OOD rubric if feedback is wanted | `references/questions.md` (OOD section) + `references/rubric.md` |
+| `study` | prep/study-plan questions | Timeline-based plan (short/medium/long) + question picks | `references/questions.md`; calibrate with `references/examples.md` §5 |
 
-If the request fits more than one mode, prefer: `estimate`/`decide` for narrow questions → `review` for existing systems → `interview`/`design` for greenfield. Never load every reference file up front — progressive disclosure keeps the context lean.
+If the request fits more than one mode, prefer: `estimate`/`decide` for narrow questions → `review` for existing systems → `interview`/`design` for greenfield (precedence demo: `references/examples.md` §7). Before answering, skim `references/examples.md` only when routing is ambiguous — never load every reference file up front; progressive disclosure keeps the context lean.
 
 ### When NOT to invoke
 
-- General coding/debugging questions with no design or scale dimension
+- General coding/debugging questions with no design or scale dimension (`references/examples.md` §6)
 - Ops/CI questions unrelated to architecture trade-offs
 - Topics the primer doesn't cover better than the user's own docs — defer to in-repo docs when they exist
 
@@ -115,6 +115,19 @@ For every fix, name the new cost (complexity, consistency, hardware, replication
 
 Throughout: run **back-of-the-envelope calculations** when numbers matter (Step 1 or 4). Use `references/quick-reference.md` for latency numbers, powers of two, availability nines, and the requests-per-month conversion guide.
 
+## Scripts (bundled, stdlib-only)
+
+| Script | Use |
+|---|---|
+| `scripts/estimate.py` | Back-of-the-envelope CLI: `full`, `qps`, `storage`, `shards`, `bandwidth` subcommands. Run it for `estimate` mode (or to check Step 1/4 math in any mode) instead of doing arithmetic by hand — then round and present the numbers yourself. |
+| `scripts/validate_skill.py` | Package health check: frontmatter limits, internal refs, zip ↔ directory parity. Run after editing the skill before rebuilding the `.skill` file. |
+
+```bash
+python3 scripts/estimate.py full \
+  --reads-month 100000000 --writes-month 10000000 \
+  --record-bytes 1300 --read-bytes 5000 --node-capacity-gb 100
+```
+
 ## Reference files (load on demand per the mode table)
 
 | File | Use it when |
@@ -122,6 +135,8 @@ Throughout: run **back-of-the-envelope calculations** when numbers matter (Step 
 | `references/quick-reference.md` | Estimating capacity, citing latency numbers, availability math, powers of two |
 | `references/topic-playbook.md` | Choosing and explaining building blocks: LB, reverse proxy, DNS, CDN, SQL/NoSQL scaling, caches, queues, REST/RPC, TCP/UDP, CAP/consistency |
 | `references/questions.md` | Catalog of solved + extra interview questions, with pointers into `solutions/` |
+| `references/examples.md` | Routing is ambiguous; calibrate mode/depth against few-shot examples (§1–§7, including a non-invoke case) |
+| `references/rubric.md` | Scoring a practice run (system design + OOD rubrics), closing 10-point failure checklist, feedback format |
 | `templates/design-doc.md` | Producing a full written design deliverable for the user |
 
 ## Standalone mode (package used outside this repo)
@@ -151,7 +166,7 @@ When a worked solution exists for the user's question, read it and mirror its st
 4. **Always give the counter-trade-off.** Pair every recommendation with its disadvantage, using the primer's "Disadvantage(s):" framing.
 5. **Match depth to the ask.** Interview practice → run the full 4 steps conversationally. Quick tech question → answer directly, cite the relevant trade-offs. Full deliverable → use `templates/design-doc.md`.
 6. **Prefer the standard pattern vocabulary** from the playbook (master-slave replication, federation, sharding, cache-aside, fanout, consistent hashing, etc.) so answers align with what interviewers expect.
-7. **Close with a checklist**: single points of failure, bottlenecks, hotspots/shard skew, cache invalidation, replication lag, and failure-mode behavior (what happens when a node/datacenter dies).
+7. **Close with a checklist**: run the 10-point closing checklist in `references/rubric.md` (SPOFs, bottlenecks, hotspots/skew, cache invalidation, replication lag, data-loss window, node/datacenter death, queue health, security, shakiest assumption). If the user wants a score, use the rubric bands and feedback format in the same file.
 
 ## Output shape for a full design answer
 
