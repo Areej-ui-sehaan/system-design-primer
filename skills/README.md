@@ -1,28 +1,29 @@
 # Skills
 
-## `system-design` (v5.0.0)
+## `system-design` (v6.0.0 — final)
 
 System design architect + interview coach distilled from **the entire** System Design Primer repo.
 
 | Path | Role |
 |---|---|
 | `system-design/SKILL.md` | Entry point: frontmatter routing, invocation modes, 4-step method |
-| `system-design/references/` | On-demand knowledge: numbers, topic playbook, question catalog, few-shot examples, scoring rubric, worked exemplar, **all-8 solutions index**, **all-6 OOD class designs**, diagram library, study extras |
+| `system-design/references/` | On-demand knowledge: numbers, playbook, questions, examples, rubric, worked exemplar, all-8 solutions index, all-6 OOD designs, diagrams, study extras, **repo coverage map** |
 | `system-design/data/anki_cards.json` | Primer's 3 Anki decks extracted (56 cards: system / exercises / oo) |
 | `system-design/templates/` | Fill-in design-doc template |
 | `system-design/scripts/estimate.py` | Back-of-the-envelope CLI (qps / storage / shards / bandwidth / full) |
 | `system-design/scripts/gen_flashcards.py` | Flashcard generator: built-in decks + extracted primer Anki decks (markdown / Anki TSV / JSON) |
-| `system-design/scripts/validate_skill.py` | Package validator (frontmatter, internal refs, zip parity) |
+| `system-design/scripts/validate_skill.py` | Package validator (frontmatter, internal refs, zip parity; ignores `__pycache__`) |
 | `system-design.skill` | Distributable package (zip) of the skill folder |
 | `../.claude/commands/system-design.md` | Claude Code `/system-design` slash-command stub → routes into the skill |
 
 ### Changelog
 
-- **5.0.0** — full-repo learning pass: distilled all 8 system design solutions + all 6 OOD solutions into the package; extracted primer Anki decks to `data/anki_cards.json` (wireable via `--deck anki*`); company blogs/architectures + stretch topics reference; standard "Additional talking points" output section; RPC vs REST table + security basics completed in playbook
-- **4.0.0** — bundled worked exemplar (Pastebin condensed); mermaid diagram snippet library; `gen_flashcards.py`; `/system-design` slash-command stub
-- **3.0.0** — bundled `scripts/` (estimator + validator), few-shot invocation examples, interview/OOD scoring rubric + closing checklist; wired into mode router
-- **2.1.0** — standalone-safe: graceful degradation when used outside this repo
-- **2.0.0** — invocation overhaul (modes, explicit syntax per surface, aliases) + `.skill` package
+- **6.0.0 (final)** — completeness + error-hardening pass: `references/repo-map.md` maps every primer README section / solution / meta file to its package counterpart (motivation, start-here video+article path, sister coding-challenges repo, translations, EPUB, contributing); cleaned non-breaking spaces in extracted Anki notes; validator ignores `__pycache__`/`.pyc`; zip rebuild excludes bytecode; full validation suite green
+- **5.0.0** — full-repo learning pass: distilled all 8 system design solutions + all 6 OOD solutions; extracted primer Anki decks to `data/anki_cards.json`; company blogs/architectures + stretch topics; "Additional talking points" output section; RPC vs REST table + security basics
+- **4.0.0** — bundled worked exemplar (Pastebin condensed); mermaid diagram library; `gen_flashcards.py`; `/system-design` slash-command stub
+- **3.0.0** — bundled `scripts/` (estimator + validator), few-shot examples, scoring rubric + closing checklist
+- **2.1.0** — standalone-safe: graceful degradation outside this repo
+- **2.0.0** — invocation overhaul (modes, explicit syntax, aliases) + `.skill` package
 - **1.0.0** — initial skill distilled from the primer
 
 ## Install / invoke
@@ -56,6 +57,6 @@ python3 skills/system-design/scripts/gen_flashcards.py --deck all --format markd
 ```bash
 # after any edit:
 python3 skills/system-design/scripts/validate_skill.py
-(cd skills && rm -f system-design.skill && zip -r system-design.skill system-design -x '*.DS_Store')
+(cd skills && rm -f system-design.skill && zip -r system-design.skill system-design -x '*.DS_Store' -x '*__pycache__*' -x '*.pyc')
 python3 skills/system-design/scripts/validate_skill.py   # confirms zip ↔ directory parity
 ```

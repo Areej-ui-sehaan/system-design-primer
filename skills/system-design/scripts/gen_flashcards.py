@@ -164,8 +164,8 @@ def anki_cards(subdeck: str | None = None):
     out = []
     for k in keys:
         for c in data.get(k, []):
-            front = " ".join(c["front"].split())[:400]   # TSV-safe single line
-            back = " ".join(c["back"].split())[:800]
+            front = " ".join(c["front"].replace("\xa0", " ").split())[:400]  # TSV-safe
+            back = " ".join(c["back"].replace("\xa0", " ").split())[:800]
             out.append((front, back, f"primer-anki {k}"))
     return [c for c in out if c[0]]
 

@@ -80,7 +80,10 @@ def check_zip(root: Path, zip_path: Path, errors: list[str]) -> None:
     dir_files = {
         p.relative_to(root).as_posix()
         for p in root.rglob("*")
-        if p.is_file() and p.name != ".DS_Store"
+        if p.is_file()
+        and p.name != ".DS_Store"
+        and "__pycache__" not in p.parts
+        and p.suffix != ".pyc"
     }
     # zip stores paths under the skill folder name
     prefix = root.name + "/"

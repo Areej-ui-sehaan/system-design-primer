@@ -19,7 +19,7 @@ compatibility:
   - OpenAI Codex
   - Cursor
 metadata:
-  version: "5.0.0"
+  version: "6.0.0"
   source: https://github.com/donnemartin/system-design-primer
   aliases: system-design-interview, architecture-review, design-review, scalability, capacity-estimation, ood-interview
 ---
@@ -62,7 +62,7 @@ Load and follow this skill when the request matches the frontmatter `description
 | `estimate` | pure capacity/numbers question | Order-of-magnitude math only; show setup, skip the full design; run `scripts/estimate.py` for the arithmetic | `references/quick-reference.md` + `scripts/estimate.py` |
 | `decide` | technology trade-off question | Recommend + counter-trade-off matrix, no full design | `references/topic-playbook.md`; calibrate with `references/examples.md` §3 |
 | `ood` | object-oriented design drill | Classes/interfaces/relationships first, then methods; score with the OOD rubric if feedback is wanted | `references/questions.md` (OOD section) + `references/ood-solutions.md` (all 6 class designs) + `references/rubric.md` |
-| `study` | prep/study-plan questions | Timeline-based plan (short/medium/long) + question picks; generate a card deck with `scripts/gen_flashcards.py` (built-in decks + primer's extracted Anki decks) for drilling | `references/questions.md` + `references/study-extras.md`; calibrate with `references/examples.md` §5; `scripts/gen_flashcards.py` |
+| `study` | prep/study-plan questions | Timeline-based plan (short/medium/long) + question picks; generate a card deck with `scripts/gen_flashcards.py` (built-in decks + primer's extracted Anki decks) for drilling; beginners → "start here" path in `references/repo-map.md` | `references/questions.md` + `references/study-extras.md` + `references/repo-map.md`; calibrate with `references/examples.md` §5; `scripts/gen_flashcards.py` |
 
 If the request fits more than one mode, prefer: `estimate`/`decide` for narrow questions → `review` for existing systems → `interview`/`design` for greenfield (precedence demo: `references/examples.md` §7). Before answering, skim `references/examples.md` only when routing is ambiguous — never load every reference file up front; progressive disclosure keeps the context lean.
 
@@ -143,13 +143,14 @@ python3 scripts/gen_flashcards.py --deck all --format tsv --out cards.tsv
 | `references/solutions-index.md` | Match the user's question against **all 8** primer solutions (twitter fanout, crawler, mint, social graph, query cache, sales rank, AWS ladder) for numbers + technique cribs |
 | `references/ood-solutions.md` | `ood` mode: class designs for all 6 primer OOD answers (hash map, LRU, call center, deck, parking lot, chat) |
 | `references/study-extras.md` | `study` mode extras: extracted Anki deck map, company blogs/architectures lists, stretch topics |
+| `references/repo-map.md` | Need the full primer coverage map: which README section/solution maps to which package file, beginner "start here" resources, sister repo, translations, EPUB, contribution notes |
 | `references/diagrams.md` | Need mermaid snippets: 3-tier+cache, fanout queue, replication, sharding, federation, back pressure, failover, multi-region |
 | `references/rubric.md` | Scoring a practice run (system design + OOD rubrics), closing 10-point failure checklist, feedback format |
 | `templates/design-doc.md` | Producing a full written design deliverable for the user |
 
 ## Standalone mode (package used outside this repo)
 
-This skill package is **self-contained for everything core**: the 4-step method, invocation modes, estimation numbers (`references/quick-reference.md`), the full trade-off playbook (`references/topic-playbook.md`), a complete worked model answer (`references/worked-exemplar.md`), **distilled versions of all 8 system design solutions and all 6 OOD solutions** (`references/solutions-index.md`, `references/ood-solutions.md`), the primer's **Anki decks extracted** (`data/anki_cards.json` via `scripts/gen_flashcards.py`), the mermaid snippet library (`references/diagrams.md`), the design-doc template, scripts, and the question catalog. If the repository paths below are **not** present (e.g. `.skill` uploaded to claude.ai or extracted alone):
+This skill package is **self-contained for everything core**: the 4-step method, invocation modes, estimation numbers (`references/quick-reference.md`), the full trade-off playbook (`references/topic-playbook.md`), a complete worked model answer (`references/worked-exemplar.md`), **distilled versions of all 8 system design solutions and all 6 OOD solutions** (`references/solutions-index.md`, `references/ood-solutions.md`), the primer's **Anki decks extracted** (`data/anki_cards.json` via `scripts/gen_flashcards.py`), the full **repo coverage map** (`references/repo-map.md`), the mermaid snippet library (`references/diagrams.md`), the design-doc template, scripts, and the question catalog. If the repository paths below are **not** present (e.g. `.skill` uploaded to claude.ai or extracted alone):
 
 - Do **not** attempt to open `README.md`, `solutions/`, or `resources/` — skip the Repository map entirely.
 - Answer and coach purely from this package; for full model answers use `references/worked-exemplar.md` + `references/solutions-index.md` (all 8 distilled) and `references/ood-solutions.md` (all 6) instead of the missing `solutions/` write-ups; Anki cards ship as `data/anki_cards.json`; treat questions.md solution pointers as *technique labels* ("core techniques exercised"), not links to follow.
@@ -157,6 +158,8 @@ This skill package is **self-contained for everything core**: the 4-step method,
 - Never mention a missing path to the user as if it were available.
 
 ## Repository map (optional deep content — only when the primer repo is checked out)
+
+Full section-by-section coverage map (including what ships in this package): **`references/repo-map.md`**. Highlights:
 
 - `README.md` — the full primer: index of topics, interview method, study guide, appendix (powers of two, latency numbers, additional questions, real-world architectures, company blogs)
 - `solutions/system_design/<name>/README.md` — worked system design solutions (pastebin, twitter, web_crawler, mint, social_graph, query_cache, sales_rank, scaling_aws), each following the 4-step format with diagrams
