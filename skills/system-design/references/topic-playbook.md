@@ -1,6 +1,6 @@
 # Topic playbook: building blocks and their trade-offs
 
-Condensed from the primer's [Index of system design topics](../../README.md). Every recommendation pairs with its disadvantage — that is the point of an interview.
+Condensed from the primer's Index of system design topics (`github.com/donnemartin/system-design-primer` → README). Self-contained for standalone use; every recommendation pairs with its disadvantage — that is the point of an interview.
 
 ## Foundations
 

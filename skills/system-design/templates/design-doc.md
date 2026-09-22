@@ -115,8 +115,8 @@ PRIMARY KEY({key})  -- index on {filter column}
 - **SPOF audit:** {list remaining SPOFs and why acceptable or how removed}
 - **Open questions:** {things needing interviewer input or future phase}
 
-## 6. Further reading (this repo)
+## 6. Further reading
 
-- Primer topics: `README.md` → relevant section ({e.g. Cache, Sharding, CAP theorem})
-- Worked solution to compare against: `solutions/system_design/{matching question}/README.md`
-- OOD counterpart if relevant: `solutions/object_oriented_design/`
+- Primer topics: this skill's `references/topic-playbook.md` → {e.g. Caching, SQL scaling, CAP} (or `README.md` → {section} if the primer repo is present)
+- Worked solution to compare against: `solutions/system_design/{matching question}/README.md` *(only if repo present; otherwise cite github.com/donnemartin/system-design-primer)*
+- OOD counterpart if relevant: `solutions/object_oriented_design/` *(only if repo present)*

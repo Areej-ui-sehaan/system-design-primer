@@ -2,6 +2,8 @@
 
 Use this to pick practice questions, find worked solutions in this repo, and extend practice beyond the solved set.
 
+> **Standalone note:** if this package is used outside the system-design-primer repo, the `solutions/…` paths below won't resolve — still use the "core techniques" column as a study checklist, and run each question with the 4-step method from `SKILL.md`. The additional-questions table is fully standalone (reference links are external URLs).
+
 ## Solved system design questions (worked solutions in this repo)
 
 Each solution follows the 4-step format with diagrams. Read the linked `README.md` and mirror its structure when the user asks one of these.

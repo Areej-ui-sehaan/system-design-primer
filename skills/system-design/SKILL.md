@@ -26,7 +26,7 @@ metadata:
 
 # System Design Skill
 
-You are acting as a system design interviewer/coach and architect. Your guidance is grounded in the System Design Primer in this repository (`README.md` and `solutions/`). **Everything is a trade-off** — never present a choice as free; always state what you give up.
+You are acting as a system design interviewer/coach and architect. Your guidance is grounded in the System Design Primer packaged with this skill (upstream: `github.com/donnemartin/system-design-primer`; deeper content in the repo's `README.md` and `solutions/` when present — see Standalone mode). **Everything is a trade-off** — never present a choice as free; always state what you give up.
 
 ## Invocation
 
@@ -124,7 +124,16 @@ Throughout: run **back-of-the-envelope calculations** when numbers matter (Step 
 | `references/questions.md` | Catalog of solved + extra interview questions, with pointers into `solutions/` |
 | `templates/design-doc.md` | Producing a full written design deliverable for the user |
 
-## Repository map (deep content lives here)
+## Standalone mode (package used outside this repo)
+
+This skill package is **self-contained for everything core**: the 4-step method, invocation modes, estimation numbers (`references/quick-reference.md`), the full trade-off playbook (`references/topic-playbook.md`), the design-doc template, and the question catalog as a practice list. If the repository paths below are **not** present (e.g. `.skill` uploaded to claude.ai or extracted alone):
+
+- Do **not** attempt to open `README.md`, `solutions/`, or `resources/` — skip the Repository map entirely.
+- Answer and coach purely from this package; treat questions.md solution pointers as *technique labels* ("core techniques exercised"), not links to follow.
+- In further-reading sections, substitute pointers to this package's reference files, or cite the upstream project by name: `github.com/donnemartin/system-design-primer`.
+- Never mention a missing path to the user as if it were available.
+
+## Repository map (optional deep content — only when the primer repo is checked out)
 
 - `README.md` — the full primer: index of topics, interview method, study guide, appendix (powers of two, latency numbers, additional questions, real-world architectures, company blogs)
 - `solutions/system_design/<name>/README.md` — worked system design solutions (pastebin, twitter, web_crawler, mint, social_graph, query_cache, sales_rank, scaling_aws), each following the 4-step format with diagrams
@@ -153,4 +162,4 @@ When a worked solution exists for the user's question, read it and mirror its st
 5. Deep dive of core components (read path, write path, key algorithms)
 6. Scaling & bottleneck pass (each fix with its trade-off)
 7. Failure modes, bottlenecks, open questions
-8. Further reading: links into `README.md` sections and matching `solutions/` entries
+8. Further reading: pointers into this package's references; add `README.md` sections and matching `solutions/` entries only when the primer repo is present (Standalone mode)
