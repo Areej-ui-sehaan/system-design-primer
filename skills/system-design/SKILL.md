@@ -19,7 +19,7 @@ compatibility:
   - OpenAI Codex
   - Cursor
 metadata:
-  version: "4.0.0"
+  version: "5.0.0"
   source: https://github.com/donnemartin/system-design-primer
   aliases: system-design-interview, architecture-review, design-review, scalability, capacity-estimation, ood-interview
 ---
@@ -56,13 +56,13 @@ Load and follow this skill when the request matches the frontmatter `description
 
 | Mode | Trigger | Do this | Load |
 |---|---|---|---|
-| `interview` (default) | "design X" as a drill | Run the 4 steps conversationally; ask scoping questions before components | calibrate with `references/examples.md` §1; structure/depth from `references/worked-exemplar.md`; score at end with `references/rubric.md` if feedback is wanted |
-| `design` | wants a written deliverable | Produce a full design doc | `templates/design-doc.md` + `references/worked-exemplar.md` (depth bar) + paste from `references/diagrams.md` |
+| `interview` (default) | "design X" as a drill | Run the 4 steps conversationally; ask scoping questions before components | calibrate with `references/examples.md` §1; structure/depth from `references/worked-exemplar.md`; match techniques against `references/solutions-index.md`; score at end with `references/rubric.md` if feedback is wanted |
+| `design` | wants a written deliverable | Produce a full design doc | `templates/design-doc.md` + `references/worked-exemplar.md` (depth bar) + `references/solutions-index.md` (technique crib) + paste from `references/diagrams.md` |
 | `review` | existing architecture/doc to critique | SPOF, bottleneck, failure-mode, trade-off audit; closing checklist in `references/rubric.md` | `references/topic-playbook.md` + `references/rubric.md` (checklist); annotate with `references/diagrams.md` |
 | `estimate` | pure capacity/numbers question | Order-of-magnitude math only; show setup, skip the full design; run `scripts/estimate.py` for the arithmetic | `references/quick-reference.md` + `scripts/estimate.py` |
 | `decide` | technology trade-off question | Recommend + counter-trade-off matrix, no full design | `references/topic-playbook.md`; calibrate with `references/examples.md` §3 |
-| `ood` | object-oriented design drill | Classes/interfaces/relationships first, then methods; score with the OOD rubric if feedback is wanted | `references/questions.md` (OOD section) + `references/rubric.md` |
-| `study` | prep/study-plan questions | Timeline-based plan (short/medium/long) + question picks; generate a card deck with `scripts/gen_flashcards.py` for drilling | `references/questions.md`; calibrate with `references/examples.md` §5; `scripts/gen_flashcards.py` |
+| `ood` | object-oriented design drill | Classes/interfaces/relationships first, then methods; score with the OOD rubric if feedback is wanted | `references/questions.md` (OOD section) + `references/ood-solutions.md` (all 6 class designs) + `references/rubric.md` |
+| `study` | prep/study-plan questions | Timeline-based plan (short/medium/long) + question picks; generate a card deck with `scripts/gen_flashcards.py` (built-in decks + primer's extracted Anki decks) for drilling | `references/questions.md` + `references/study-extras.md`; calibrate with `references/examples.md` §5; `scripts/gen_flashcards.py` |
 
 If the request fits more than one mode, prefer: `estimate`/`decide` for narrow questions → `review` for existing systems → `interview`/`design` for greenfield (precedence demo: `references/examples.md` §7). Before answering, skim `references/examples.md` only when routing is ambiguous — never load every reference file up front; progressive disclosure keeps the context lean.
 
@@ -140,16 +140,19 @@ python3 scripts/gen_flashcards.py --deck all --format tsv --out cards.tsv
 | `references/questions.md` | Catalog of solved + extra interview questions, with pointers into `solutions/` |
 | `references/examples.md` | Routing is ambiguous; calibrate mode/depth against few-shot examples (§1–§7, including a non-invoke case) |
 | `references/worked-exemplar.md` | Need a full model answer (structure, depth, trade-off tables) before writing a `design`/`interview` response — bundled Pastebin/URL-shortener walkthrough |
+| `references/solutions-index.md` | Match the user's question against **all 8** primer solutions (twitter fanout, crawler, mint, social graph, query cache, sales rank, AWS ladder) for numbers + technique cribs |
+| `references/ood-solutions.md` | `ood` mode: class designs for all 6 primer OOD answers (hash map, LRU, call center, deck, parking lot, chat) |
+| `references/study-extras.md` | `study` mode extras: extracted Anki deck map, company blogs/architectures lists, stretch topics |
 | `references/diagrams.md` | Need mermaid snippets: 3-tier+cache, fanout queue, replication, sharding, federation, back pressure, failover, multi-region |
 | `references/rubric.md` | Scoring a practice run (system design + OOD rubrics), closing 10-point failure checklist, feedback format |
 | `templates/design-doc.md` | Producing a full written design deliverable for the user |
 
 ## Standalone mode (package used outside this repo)
 
-This skill package is **self-contained for everything core**: the 4-step method, invocation modes, estimation numbers (`references/quick-reference.md`), the full trade-off playbook (`references/topic-playbook.md`), a complete worked model answer (`references/worked-exemplar.md`), the mermaid snippet library (`references/diagrams.md`), the design-doc template, flashcard/estimate scripts, and the question catalog as a practice list. If the repository paths below are **not** present (e.g. `.skill` uploaded to claude.ai or extracted alone):
+This skill package is **self-contained for everything core**: the 4-step method, invocation modes, estimation numbers (`references/quick-reference.md`), the full trade-off playbook (`references/topic-playbook.md`), a complete worked model answer (`references/worked-exemplar.md`), **distilled versions of all 8 system design solutions and all 6 OOD solutions** (`references/solutions-index.md`, `references/ood-solutions.md`), the primer's **Anki decks extracted** (`data/anki_cards.json` via `scripts/gen_flashcards.py`), the mermaid snippet library (`references/diagrams.md`), the design-doc template, scripts, and the question catalog. If the repository paths below are **not** present (e.g. `.skill` uploaded to claude.ai or extracted alone):
 
 - Do **not** attempt to open `README.md`, `solutions/`, or `resources/` — skip the Repository map entirely.
-- Answer and coach purely from this package; for a full model answer use `references/worked-exemplar.md` (bundled) instead of the missing `solutions/` write-ups; treat questions.md solution pointers as *technique labels* ("core techniques exercised"), not links to follow.
+- Answer and coach purely from this package; for full model answers use `references/worked-exemplar.md` + `references/solutions-index.md` (all 8 distilled) and `references/ood-solutions.md` (all 6) instead of the missing `solutions/` write-ups; Anki cards ship as `data/anki_cards.json`; treat questions.md solution pointers as *technique labels* ("core techniques exercised"), not links to follow.
 - In further-reading sections, substitute pointers to this package's reference files, or cite the upstream project by name: `github.com/donnemartin/system-design-primer`.
 - Never mention a missing path to the user as if it were available.
 
@@ -176,10 +179,11 @@ When a worked solution exists for the user's question, read it and mirror its st
 ## Output shape for a full design answer
 
 1. Requirements & assumptions (in/out of scope, numbers)
-2. Back-of-the-envelope estimates (QPS, storage, bandwidth)
-3. High-level architecture (components + a mermaid diagram when useful)
+2. Back-of-the-envelope estimates (QPS, storage, bandwidth) — via `scripts/estimate.py` when non-trivial
+3. High-level architecture (components + a mermaid diagram from `references/diagrams.md` when useful)
 4. API + data model
 5. Deep dive of core components (read path, write path, key algorithms)
-6. Scaling & bottleneck pass (each fix with its trade-off)
-7. Failure modes, bottlenecks, open questions
-8. Further reading: pointers into this package's references; add `README.md` sections and matching `solutions/` entries only when the primer repo is present (Standalone mode)
+6. Scaling & bottleneck pass (each fix with its trade-off) — reference the iterative `scaling_aws` ladder from `references/solutions-index.md`; never jump to the final design
+7. Failure modes, bottlenecks, open questions (closing checklist in `references/rubric.md`)
+8. **Additional talking points** (the primer's standard menu, offered when time remains): SQL scaling patterns · NoSQL types · caching (where/what/when) · async + microservices · communications (REST external / RPC internal) · security basics · latency numbers
+9. Further reading: pointers into this package's references; add `README.md` sections and matching `solutions/` entries only when the primer repo is present (Standalone mode)

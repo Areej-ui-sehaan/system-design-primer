@@ -17,6 +17,7 @@ from __future__ import annotations
 import argparse
 import json
 import sys
+from pathlib import Path
 
 CORE = [
     ("What does CAP theorem say about a distributed system?",
@@ -151,20 +152,44 @@ SCALING = [
 ]
 
 DECKS = {"core": CORE, "numbers": NUMBERS, "scaling": SCALING}
+ANKI_PATH = Path(__file__).resolve().parent.parent / "data" / "anki_cards.json"
+
+
+def anki_cards(subdeck: str | None = None):
+    """Load primer-extracted Anki notes. subdeck: system|exercises|oo|None=all."""
+    if not ANKI_PATH.exists():
+        return []
+    data = json.loads(ANKI_PATH.read_text(encoding="utf-8")).get("decks", {})
+    keys = [subdeck] if subdeck else list(data.keys())
+    out = []
+    for k in keys:
+        for c in data.get(k, []):
+            front = " ".join(c["front"].split())[:400]   # TSV-safe single line
+            back = " ".join(c["back"].split())[:800]
+            out.append((front, back, f"primer-anki {k}"))
+    return [c for c in out if c[0]]
 
 
 def cards_for(deck: str):
     if deck == "all":
-        return CORE + NUMBERS + SCALING
+        return CORE + NUMBERS + SCALING + anki_cards()
+    if deck == "anki":
+        return anki_cards()
+    if deck.startswith("anki-"):
+        return anki_cards(deck.split("-", 1)[1])
     if deck not in DECKS:
-        raise SystemExit(f"unknown deck: {deck} (choose from {', '.join(DECKS)} or all)")
+        raise SystemExit(
+            f"unknown deck: {deck} (choose from {', '.join(DECKS)}, anki, "
+            f"anki-system, anki-exercises, anki-oo, or all)"
+        )
     return DECKS[deck]
 
 
 def main() -> int:
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     p.add_argument("--format", choices=("markdown", "tsv", "json"), default="markdown")
-    p.add_argument("--deck", choices=("core", "numbers", "scaling", "all"), default="all")
+    p.add_argument("--deck", default="all",
+                   help="core|numbers|scaling|anki|anki-system|anki-exercises|anki-oo|all")
     p.add_argument("--out", default=None, help="output file (default: stdout)")
     args = p.parse_args()
 

@@ -87,8 +87,28 @@ General costs: cache invalidation difficulty, consistency between cache and sour
 
 ## Security (always mention in Step 4/5)
 
-- HTTPS/TLS in transit; encryption at rest where required.
-- Parameterized queries (anti SQL-injection); least privilege; rate limiting; OWASP top ten awareness.
+Primer's basics — enough unless interviewing for a security role:
+
+- Encrypt in transit and at rest
+- Sanitize all user inputs / parameters (anti XSS, anti SQL injection)
+- Parameterized queries
+- Principle of least privilege
+- Further: API security checklist · OWASP top ten (external links in primer README)
+
+## RPC vs REST (condensed from primer comparison)
+
+| | RPC | REST |
+|---|---|---|
+| Exposes | behavior (verbs) | data (resources + HTTP verbs) |
+| Signup | POST /signup | POST /persons |
+| Delete | POST /removeItem {id} | DELETE /persons/1234 |
+| Update | POST /modifyItem {id, kv} | PUT /items/456 {kv} |
+| Best for | internal hot paths, hand-tuned SDKs | public APIs, loose coupling, cacheability |
+| Cost | tight coupling, new API per op, harder to debug/cache | awkward for non-hierarchical ops, N+1 fetches, payload bloat |
+
+## Primer "under development" topics (stretch goals to mention)
+
+MapReduce (distilled in solutions-index: sales_rank, crawler dedup, mint, pastebin analytics) · consistent hashing (see sharding note) · scatter gather (twitter/crawler search).
 
 ## Standard bottleneck → fix map (Step 4 checklist)
 
